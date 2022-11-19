@@ -33,6 +33,7 @@ message ChartArchive {
   repeated .TSP.Reference paragraph_styles = 20;
   optional uint32 multidataset_index = 21;
   optional bool needs_calc_engine_deferred_import_action = 22;
+  optional bool is_verified = 23;
 
 }
 

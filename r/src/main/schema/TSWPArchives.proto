@@ -1,0 +1,2340 @@
+syntax = "proto3";
+package TSWP;
+
+import "schemata/protobuf/schemata.proto";
+import "TSSArchives.proto";
+import "TSDArchives.proto";
+import "TSPMessages.proto";
+
+enum LigaturesType {
+  kRequiredLigatures = 0;
+  kStandardLigatures = 1;
+  kAllLigatures = 2;
+}
+
+enum StyleInsertionBehavior {
+  StyleInsertionBehavior_NoGrow = 0;
+  StyleInsertionBehavior_GrowLeft = 1;
+  StyleInsertionBehavior_GrowRight = 2;
+}
+
+enum KindType {
+  BODY = 0;
+  HEADER = 1;
+  FOOTNOTE = 2;
+  TEXTBOX = 3;
+  NOTE = 4;
+  CELL = 5;
+  UNCLASSIFIED = 6;
+  TABLEOFCONTENTS = 7;
+}
+
+enum VerticalAlignmentType {
+  kFrameAlignTop = 0;
+  kFrameAlignMiddle = 1;
+  kFrameAlignBottom = 2;
+  kFrameAlignJustify = 3;
+}
+
+enum LineSpacingModeType {
+  kRelativeLineSpacing = 0;
+  kMinimumLineSpacing = 1;
+  kExactLineSpacing = 2;
+  kMaximumLineSpacing = 3;
+  kSpaceBetweenLineSpacing = 4;
+}
+
+enum UndoKind {
+  REPLACE_TEXT = 0;
+  INSERT_ATTRIBUTE = 1;
+  DELETE_ATTRIBUTE = 2;
+  ADJUST_CHAR_INDEXES = 3;
+  COMPR_ADJUST_CHAR_INDEXES = 4;
+  REPLACE_CHAR_INDEX = 5;
+  REPLACE_OBJECT = 6;
+  REPLACE_PARAGRAPH_DATA = 7;
+  OBJECT_DOLC = 8;
+  CT_DATE = 9;
+}
+
+enum ParagraphBorderType {
+  PBTvalue0 = 0;
+  PBTvalue1 = 1;
+  PBTvalue2 = 2;
+  PBTvalue3 = 3;
+  PBTvalue4 = 4;
+}
+
+enum StrikethruType {
+  kNoStrikethru = 0;
+  kSingleStrikethru = 1;
+  kDoubleStrikethru = 2;
+  kTripleStrikethru = 3;
+}
+
+enum OutlineStyleType {
+  OSTvalue0 = 0;
+  OSTvalue1 = 1;
+  OSTvalue2 = 2;
+}
+
+enum NumberType {
+  kNumericDecimal = 0;
+  kNumericDoubleParen = 1;
+  kNumericRightParen = 2;
+  kRomanUpperDecimal = 3;
+  kRomanUpperDoubleParen = 4;
+  kRomanUpperRightParen = 5;
+  kRomanLowerDecimal = 6;
+  kRomanLowerDoubleParen = 7;
+  kRomanLowerRightParen = 8;
+  kAlphaUpperDecimal = 9;
+  kAlphaUpperDoubleParen = 10;
+  kAlphaUpperRightParen = 11;
+  kAlphaLowerDecimal = 12;
+  kAlphaLowerDoubleParen = 13;
+  kAlphaLowerRightParen = 14;
+  kIdeographicJapaneseDecimalKind = 15;
+  kIdeographicJapaneseDoubleParenKind = 16;
+  kIdeographicJapaneseRightParenKind = 17;
+  kHiraganaDecimalKind = 18;
+  kHiraganaDoubleParenKind = 19;
+  kHiraganaRightParenKind = 20;
+  kKatakanaDecimalKind = 21;
+  kKatakanaDoubleParenKind = 22;
+  kKatakanaRightParenKind = 23;
+  kHiraganaIrohaDecimalKind = 24;
+  kHiraganaIrohaDoubleParenKind = 25;
+  kHiraganaIrohaRightParenKind = 26;
+  kKatakanaIrohaDecimalKind = 27;
+  kKatakanaIrohaDoubleParenKind = 28;
+  kKatakanaIrohaRightParenKind = 29;
+  kIdeographicSimplifiedChineseDecimalKind = 30;
+  kIdeographicSimplifiedChineseDoubleParenKind = 31;
+  kIdeographicSimplifiedChineseRightParenKind = 32;
+  kIdeographicTraditionalChineseDecimalKind = 33;
+  kIdeographicTraditionalChineseDoubleParenKind = 34;
+  kIdeographicTraditionalChineseRightParenKind = 35;
+  kIdeographicFormalJapaneseDecimalKind = 36;
+  kIdeographicFormalJapaneseDoubleParenKind = 37;
+  kIdeographicFormalJapaneseRightParenKind = 38;
+  kIdeographicFormalSimplifiedChineseDecimalKind = 39;
+  kIdeographicFormalSimplifiedChineseDoubleParenKind = 40;
+  kIdeographicFormalSimplifiedChineseRightParenKind = 41;
+  kIdeographicFormalTraditionalChineseDecimalKind = 42;
+  kIdeographicFormalTraditionalChineseDoubleParenKind = 43;
+  kIdeographicFormalTraditionalChineseRightParenKind = 44;
+  kKoreanAlphabetDecimalKind = 45;
+  kKoreanAlphabetDoubleParenKind = 46;
+  kKoreanAlphabetRightParenKind = 47;
+  kCircledNumberKind = 48;
+  kArabianNumericDecimalKind = 49;
+  kArabianNumericDoubleParenKind = 50;
+  kArabianNumericRightParenKind = 51;
+  kArabianAlphaDecimalKind = 52;
+  kArabianAlphaDoubleParenKind = 53;
+  kArabianAlphaRightParenKind = 54;
+  kArabianAbjadDecimalKind = 55;
+  kArabianAbjadDoubleParenKind = 56;
+  kArabianAbjadRightParenKind = 57;
+  kHebrewAlphaDecimalKind = 58;
+  kHebrewAlphaDoubleParenKind = 59;
+  kHebrewAlphaRightParenKind = 60;
+  kHebrewBiblicalStandardKind = 61;
+}
+
+enum WritingDirectionType {
+  kWritingDirectionNatural = 0;
+  kWritingDirectionLeftToRight = 1;
+  kWritingDirectionRightToLeft = 2;
+}
+
+enum SuperscriptType {
+  kNoScript = 0;
+  kSuperscript = 1;
+  kSubscript = 2;
+}
+
+enum CaretAffinity {
+  CaretAffinity_Start = 0;
+  CaretAffinity_End = 1;
+}
+
+enum CapitalizationType {
+  kNoCaps = 0;
+  kAllCaps = 1;
+  kSmallCaps = 2;
+  kTitled = 3;
+}
+
+enum SelectionType {
+  SelectionType_Normal = 0;
+  SelectionType_ListLabel = 1;
+  SelectionType_ListTopic = 2;
+  SelectionType_Replace = 3;
+  SelectionType_CopyPasteStyle = 4;
+  SelectionType_Replace2 = 5;
+  SelectionType_SmartField = 6;
+  SelectionType_Visual = 7;
+}
+
+enum MergeCategory {
+  kMergeCategoryTo = 0;
+  kMergeCategoryFrom = 1;
+}
+
+enum DateTimeFormatterStyle {
+  kDateTimeFormatterStyleNone = 0;
+  kDateTimeFormatterStyleShort = 1;
+  kDateTimeFormatterStyleMedium = 2;
+  kDateTimeFormatterStyleLong = 3;
+  kDateTimeFormatterStyleFull = 4;
+}
+
+enum LabelType {
+  kNone = 0;
+  kImage = 1;
+  kString = 2;
+  kNumber = 3;
+}
+
+enum Kind {
+  kKindPageNumber = 0;
+  kKindPageCount = 1;
+  kKindFootnoteMark = 2;
+}
+
+enum DateTimeUpdatePlan {
+  kDateTimeUpdatePlanNever = 0;
+  kDateTimeUpdatePlanAuto = 1;
+  kDateTimeUpdatePlanOnce = 2;
+}
+
+enum TabAlignmentType {
+  kTabAlignmentLeft = 0;
+  kTabAlignmentCenter = 1;
+  kTabAlignmentRight = 2;
+  kTabAlignmentDecimal = 3;
+}
+
+enum UnderlineType {
+  kNoUnderline = 0;
+  kSingleUnderline = 1;
+  kDoubleUnderline = 2;
+  kWavyUnderline = 3;
+}
+
+enum ChangeKind {
+  kChangeKindInsertion = 0;
+  kChangeKindDeletion = 1;
+}
+
+enum TextAlignmentType {
+  TATvalue0 = 0;
+  TATvalue1 = 1;
+  TATvalue2 = 2;
+  TATvalue3 = 3;
+  TATvalue4 = 4;
+}
+
+message StorageArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  TSWP.KindType kind = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference style_sheet = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string text = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool has_itext = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool in_document = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_para_style = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ParaDataAttributeTable table_para_data = 7
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_list_style = 8
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_char_style = 9
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_attachment = 10
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_smartfield = 11
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_layout_style = 12
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ParaDataAttributeTable table_para_starts = 13
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_bookmark = 14
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_footnote = 15
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_section = 16
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_rubyfield = 17
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  StringAttributeTable table_language = 18
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  StringAttributeTable table_dictation = 19
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_insertion = 20
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_deletion = 21
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectAttributeTable table_highlight = 22
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ParaDataAttributeTable table_para_bidi = 23
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message MergeSmartFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  PlaceholderSmartFieldArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string property = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string label = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string key = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.MergeCategory category = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool requires_following_whitespace = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string whitespace = 7
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string guid = 8
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string table_field = 9
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message InsertAttributeTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 attribute_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 attribute_count = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference object = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string string = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message LabelImage {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  DataReference image = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool image_null = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference database_image = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ListStyleArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  StyleArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 override_count = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.LabelType label_types = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float text_indents = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float indents = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  LabelGeometry geometries = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.NumberType number_types = 7
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string strings = 8
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  LabelImage images = 9
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool shadow_null = 10
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ShadowArchive shadow = 11
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool font_color_null = 12
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Color font_color = 13
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool font_name_null = 14
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string font_name = 15
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.WritingDirectionType writing_direction = 16
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool tiered_numbers = 17
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message InsertNilTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 attribute_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 attribute_count = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message CharDeltaTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 char_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 attribute_index = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  sint32 char_delta = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TOCEntry {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  string bookmark_name = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference target_style = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Range range = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ParagraphDataTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 attribute_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 first = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 second = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 char_index = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TOCSmartFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  PlaceholderSmartFieldArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TOCEntry toc_entries = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message RubyFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  SmartFieldArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string ruby_text = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ObjectDOLCTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 flags = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference object = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ChangeArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  TSWP.ChangeKind kind = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference session = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Date date = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool hidden = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message CTDateTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 attribute_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Date date = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message HighlightArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  Reference commentStorage = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TextStylePresetArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  string preset_identifier = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference paragraph_style = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference list_style = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message UnionTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  TSWP.UndoKind kind = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 table = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  GenericTransaction generic = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TextTransaction text = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  CharIndexTransaction char_index = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ReplaceCharIndexTransaction replace_char_index = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  AttributeIndexTransaction attribute_index = 7
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  InsertNilTransaction insert_nil = 8
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  InsertAttributeTransaction insert_attribute = 9
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  CharDeltaTransaction char_delta = 10
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ParagraphDataTransaction paragraph_data = 11
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ObjectDOLCTransaction object_dolc = 12
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  CTDateTransaction ct_date = 13
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ChangeSessionArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 session_uid = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference author = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Date date = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message FontFeatureArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 feature_type = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 feature_selector = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message CharacterStylePropertiesArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  bool bold = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool italic = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float font_size = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool font_name_null = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string font_name = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool font_color_null = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Color font_color = 7
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool language_null = 8
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string language = 9
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.SuperscriptType superscript = 10
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.UnderlineType underline = 11
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.StrikethruType strikethru = 12
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.CapitalizationType capitalization = 13
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float baseline_shift = 14
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float kerning = 15
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.LigaturesType ligatures = 16
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool outline_color_null = 17
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Color outline_color = 18
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float outline = 19
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool shadow_null = 20
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ShadowArchive shadow = 21
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool strikethru_color_null = 22
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Color strikethru_color = 23
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float strikethru_width = 24
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool background_color_null = 25
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Color background_color = 26
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float tracking = 27
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool underline_color_null = 28
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Color underline_color = 29
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float underline_width = 30
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool word_strikethru = 31
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool word_underline = 32
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool font_features_null = 33
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  FontFeatureArchive font_features = 34
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.WritingDirectionType writing_direction = 35
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool emphasis_marks_null = 36
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string emphasis_marks = 37
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool compatibility_font_name_null = 38
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string compatibility_font_name = 39
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message EqualColumnsArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 count = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float gap = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message SectionPlaceholderArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+}
+
+message GapWidthArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  float gap = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float width = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message NonEqualColumnsArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  float first = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  GapWidthArchive following = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ColumnsArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  EqualColumnsArchive equal_columns = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  NonEqualColumnsArchive non_equal_columns = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message UndoTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  UnionTransaction entries = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message PaddingArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  float left = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float top = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float right = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float bottom = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message UndoTransactionWrapperArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  UndoTransaction undo_transaction = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ShapeInfoArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  ShapeArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference containedStorage = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ColumnStylePropertiesArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  bool continuous = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool shrink_to_fit = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool vertical_text = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float min_horizontal_inset = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.VerticalAlignmentType vertical_alignment = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool columns_null = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ColumnsArchive columns = 7
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool margins_null = 8
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  PaddingArchive margins = 9
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool padding_null = 10
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  PaddingArchive padding = 11
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.WritingDirectionType writing_direction = 12
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message CommentInfoArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  ShapeInfoArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference comment_storage = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TOCInfoArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  ShapeInfoArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference toc_settings = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference toc_entry_data = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Range page_number_ranges = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TOCLayoutHintArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  Range charRange = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TextualAttachmentArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  string string_equivalent = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.Kind kind = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ColumnStyleArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  StyleArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 override_count = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ColumnStylePropertiesArchive column_properties = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TSWPTOCPageNumberAttachmentArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  TextualAttachmentArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string page_number = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string bookmark_name = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ShapeStylePropertiesArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  bool shrink_to_fit = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.VerticalAlignmentType vertical_alignment = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool columns_null = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ColumnsArchive columns = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool padding_null = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  PaddingArchive padding = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 default_text_preset_index = 7
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool vertical_text = 8
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool paragraph_style_null = 9
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference paragraph_style = 10
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message UIGraphicalAttachment {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+}
+
+message DrawableAttachmentArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  Reference drawable = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 h_offset_type = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float h_offset = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 v_offset_type = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float v_offset = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message CharacterStyleArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  StyleArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 override_count = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  CharacterStylePropertiesArchive char_properties = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TOCAttachmentArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  DrawableAttachmentArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message FootnoteReferenceAttachmentArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  TextualAttachmentArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference contained_storage = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string custom_mark_string = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TabArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  float position = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.TabAlignmentType alignment = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string leader = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ShapeStyleArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  ShapeStyleArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 override_count = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ShapeStylePropertiesArchive shape_properties = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message NumberAttachmentArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  TextualAttachmentArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 number_format = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string string_value = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TabsArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  TabArchive tabs = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ThemePresetsArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  Reference list_style_presets = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference text_style_presets = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference imported_text_style_presets = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference toc_entry_style_presets = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference toc_settings_presets = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference character_style_presets = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference paragraph_style_presets = 7
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message LineSpacingArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  TSWP.LineSpacingModeType mode = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float amount = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float baselineRule = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message SmartFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+}
+
+message HyperlinkFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  SmartFieldArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string url_ref = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ParagraphStylePropertiesArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  TSWP.TextAlignmentType alignment = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool decimal_tab_null = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string decimal_tab = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float default_tab_stops = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool fill_null = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Color fill = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float first_line_indent = 7
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool hyphenate = 8
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool keep_lines_together = 9
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool keep_with_next = 10
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float left_indent = 11
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool line_spacing_null = 12
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  LineSpacingArchive line_spacing = 13
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool page_break_before = 14
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.ParagraphBorderType borders = 15
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool rule_offset_null = 16
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Point rule_offset = 17
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float rule_width = 18
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float right_indent = 19
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float space_after = 20
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float space_before = 21
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool tabs_null = 22
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TabsArchive tabs = 23
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool widow_control = 24
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 outline_level = 25
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.OutlineStyleType outline_style = 26
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool following_style_id_null = 27
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string following_style_id = 28
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool stroke_null = 29
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  StrokeArchive stroke = 30
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool show_in_toc = 31
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool toc_style_id_null = 32
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string toc_style_id = 33
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.WritingDirectionType writing_direction = 34
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool list_style_null = 35
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference list_style = 36
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool following_style_null = 37
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference following_style = 38
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message PlaceholderSmartFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  SmartFieldArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool localizable = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TextPresetDisplayItemArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  Reference preset = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string display_name = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message UnsupportedHyperlinkFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  PlaceholderSmartFieldArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string url_ref = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TOCEntryStylePropertiesArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  bool page_number_style_null = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference page_number_style = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool show_page_number = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message BibliographySmartFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  SmartFieldArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference citation_records = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool localizable = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  PlaceholderSmartFieldArchive old_super = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TOCEntryStyleArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  ParagraphStyleArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TOCEntryStylePropertiesArchive toc_properties = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message CitationRecordArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  string endnote_xml = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool hide_author_names = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool hide_year = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string page_range = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string prefix = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string suffix = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string authors_string = 7
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string title = 8
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string year = 9
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string type = 10
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TOCEntryData {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  Reference paragraph_style = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference toc_entry_style = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool show_in_toc = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message SelectionArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  TSWP.SelectionType type = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Range range = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.StyleInsertionBehavior styleInsertionBehavior = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.CaretAffinity caretAffinity = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Range smart_field_range = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TOCSettingsArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  string toc_name = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 toc_scope = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TOCEntryData entries = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TOCEntryInstanceArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 paragraph_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 page_number = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 number_format = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string heading = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference indexed_style = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ObjectAttribute {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 character_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference object = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message CitationSmartFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  SmartFieldArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference citation_records = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool localizable = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  PlaceholderSmartFieldArchive old_super = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ObjectAttributeTable {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  ObjectAttribute entries = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message StringAttribute {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 character_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string object = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message GenericTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 value1 = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 value2 = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 value3 = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message DateTimeSmartFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  SmartFieldArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string format = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string locale_identifier = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.DateTimeFormatterStyle date_style = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.DateTimeFormatterStyle time_style = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  TSWP.DateTimeUpdatePlan update_plan = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool needs_update = 7
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Date date = 8
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message StringAttributeTable {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  StringAttribute entries = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message TextTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 insert_location = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 insert_length = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string string_to_delete = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ParaDataAttribute {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 character_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 first = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 second = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message CharIndexTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 char_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 count = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference object = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ParaDataAttributeTable {
+  option(org.schemata.schema.message_core).description = "Data attribute";
+  option(org.schemata.schema.owner) = "Core";
+  option(org.schemata.schema.domain) = "Data";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  option(org.schemata.schema.quality_rule_base) = "(1 = 1)";
+  option(org.schemata.schema.subscribers) = {
+    name: "Sales Team"
+  };
+
+  ParaDataAttribute entries = 1
+  [(org.schemata.schema.field_core).description = "No of Entries",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message BookmarkFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  SmartFieldArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string name = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 ranged = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 hidden = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message SparseObjectAttribute {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 character_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference object = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 run_length = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ParagraphStyleArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  StyleArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 override_count = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  CharacterStylePropertiesArchive char_properties = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  ParagraphStylePropertiesArchive para_properties = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ReplaceCharIndexTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 attribute_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 char_index = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message SparseObjectAttributeTable {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 total_count = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  SparseObjectAttribute entries = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message AttributeIndexTransaction {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  uint32 attribute_index = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 char_index = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference object = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string string = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message FilenameSmartFieldArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  PlaceholderSmartFieldArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 display_flags = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message LabelGeometry {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  float scale = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  float baseline_offset = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool scale_with_text = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+

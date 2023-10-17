@@ -1,117 +1,396 @@
 syntax = "proto3";
+package TSS.StylesheetArchive;
 
-import "TSPMessages.proto";
+import "schemata/protobuf/schemata.proto";
 import "TSKArchives.proto";
-package TSS;
+import "TSPMessages.proto";
 
-message StyleArchive {
-  optional string name = 1;
-  optional string style_identifier = 2;
-  optional .TSP.Reference parent = 3;
-  optional bool is_variation = 4;
-  optional .TSP.Reference stylesheet = 5;
+message IdentifiedStyleEntry {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  string identifier = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference style = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message StyleUpdatePropertyMapCommandArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  CommandArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference current_style = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference style_with_old_property_map = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference style_with_new_property_map = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool notify_for_style_clients = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ThemeMovePresetCommandArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  CommandArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference theme = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference preset = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 new_index = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 old_index = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message StyleChildrenEntry {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  Reference parent = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference children = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
 }
 
 message StylesheetArchive {
-  message IdentifiedStyleEntry {
-    optional string identifier = 1;
-    optional .TSP.Reference style = 2;
-  }
-  message StyleChildrenEntry {
-    optional .TSP.Reference parent = 1;
-    repeated .TSP.Reference children = 2;
-  }
-  repeated .TSP.Reference styles = 1;
-  repeated .TSS.StylesheetArchive.IdentifiedStyleEntry identifier_to_style_map = 2;
-  optional .TSP.Reference parent = 3;
-  optional bool is_locked = 4;
-  repeated .TSS.StylesheetArchive.StyleChildrenEntry parent_to_children_style_map = 5;
-  optional bool can_cull_styles = 6;
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  Reference styles = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  IdentifiedStyleEntry identifier_to_style_map = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference parent = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool is_locked = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  StyleChildrenEntry parent_to_children_style_map = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool can_cull_styles = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ThemeReplacePresetCommandArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  CommandArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference theme = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference preset = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference oldPreset = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 index = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ThemeReplaceStylePresetCommandArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  CommandArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference preset = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference old_preset = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
 }
 
 message ThemeArchive {
-  optional .TSP.Reference stylesheet = 1;
-  optional string theme_identifier = 3;
-  repeated .TSP.Color color_presets = 10;
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  Reference stylesheet = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string theme_identifier = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Color color_presets = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ThemeReplaceColorPresetCommandArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  CommandArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference theme = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Color color = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Color old_color = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 index = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
 
 }
 
 message ApplyThemeCommandArchive {
-  optional .TSK.CommandArchive super = 1;
-  repeated .TSP.Reference commands = 2;
-  optional .TSP.Reference old_theme = 3;
-  optional .TSP.Reference new_theme = 4;
-}
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  CommandArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
 
-message ApplyThemeChildCommandArchive {
-  optional .TSK.CommandArchive super = 1;
-  optional .TSP.Reference parent = 2;
-}
+  Reference commands = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
 
-message ReapUnusedStyleCommandArchive {
-  message IdentifiedStyleEntry {
-    optional string identifier = 1;
-    optional .TSP.Reference style = 2;
-  }
-  optional .TSK.CommandArchive super = 1;
-  optional .TSP.Reference stylesheet = 2;
-  repeated .TSP.Reference styles = 3;
-  repeated .TSS.ReapUnusedStyleCommandArchive.IdentifiedStyleEntry identified_styles = 4;
-}
+  Reference old_theme = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
 
-message StyleUpdatePropertyMapCommandArchive {
-  optional .TSK.CommandArchive super = 1;
-  optional .TSP.Reference current_style = 2;
-  optional .TSP.Reference style_with_old_property_map = 3;
-  optional .TSP.Reference style_with_new_property_map = 4;
-  optional bool notify_for_style_clients = 6;
-}
+  Reference new_theme = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
 
-message ThemeReplacePresetCommandArchive {
-  optional .TSK.CommandArchive super = 1;
-  optional .TSP.Reference theme = 2;
-  optional .TSP.Reference preset = 3;
-  optional .TSP.Reference oldPreset = 4;
-  optional uint32 index = 5;
-}
-
-message ThemeReplaceColorPresetCommandArchive {
-  optional .TSK.CommandArchive super = 1;
-  optional .TSP.Reference theme = 2;
-  optional .TSP.Color color = 3;
-  optional .TSP.Color old_color = 4;
-  optional uint32 index = 5;
 }
 
 message ThemeAddStylePresetCommandArchive {
-  optional .TSK.CommandArchive super = 1;
-  optional .TSP.Reference theme = 2;
-  optional .TSP.Reference preset = 3;
-  optional string preset_kind = 4;
-  optional string identifier = 5;
-  optional bool add_preset_to_stylesheet = 6;
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  CommandArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference theme = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference preset = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string preset_kind = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string identifier = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool add_preset_to_stylesheet = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message ApplyThemeChildCommandArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  CommandArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference parent = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message IdentifiedStyleEntry {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  string identifier = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference style = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+}
+
+message StyleArchive {
+  option(org.schemata.schema.message_core).description = "Style archive";
+  option(org.schemata.schema.owner) = "Core";
+  option(org.schemata.schema.domain) = "Platform";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  option(org.schemata.schema.quality_rule_base) = "(1 = 1)";
+  string name = 1
+  [(org.schemata.schema.field_core).description = "name",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string style_identifier = 2
+  [(org.schemata.schema.field_core).description = "identifier",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference parent = 3
+  [(org.schemata.schema.field_core).description = "parent",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  bool is_variation = 4
+  [(org.schemata.schema.field_core).description = "bool",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference stylesheet = 5
+  [(org.schemata.schema.field_core).description = "style sheet",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
 }
 
 message ThemeRemoveStylePresetCommandArchive {
-  optional .TSK.CommandArchive super = 1;
-  optional .TSP.Reference theme = 2;
-  optional .TSP.Reference preset = 3;
-  optional uint32 preset_index = 4;
-  optional string preset_kind = 5;
-  optional string identifier = 6;
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  CommandArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference theme = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference preset = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  uint32 preset_index = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string preset_kind = 5
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  string identifier = 6
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
 }
 
-message ThemeMovePresetCommandArchive {
-  optional .TSK.CommandArchive super = 1;
-  optional .TSP.Reference theme = 2;
-  optional .TSP.Reference preset = 3;
-  optional uint32 new_index = 4;
-  optional uint32 old_index = 5;
-}
+message ReapUnusedStyleCommandArchive {
+  option(org.schemata.schema.message_core).description = "null";
+  option(org.schemata.schema.owner) = "null";
+  option(org.schemata.schema.domain) = "null";
+  option(org.schemata.schema.schema_type) = UNKNOWN;
+  option(org.schemata.schema.status) = "Active";
+  CommandArchive super = 1
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
 
-message ThemeReplaceStylePresetCommandArchive {
-  optional .TSK.CommandArchive super = 1;
-  optional .TSP.Reference preset = 3;
-  optional .TSP.Reference old_preset = 4;
+  Reference stylesheet = 2
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  Reference styles = 3
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
+  IdentifiedStyleEntry identified_styles = 4
+  [(org.schemata.schema.field_core).description = "null",
+   (org.schemata.schema.is_pii) = false,(org.schemata.schema.is_classified) = false,(org.schemata.schema.depricated) = false];
+
 }
 
